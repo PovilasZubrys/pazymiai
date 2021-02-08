@@ -7,6 +7,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Student;
+use Symfony\Component\Validator\Validator\ValidatorInterface;
 use App\Entity\Grade;
 use App\Entity\Lecture;
 
@@ -19,9 +20,10 @@ class StudentController extends AbstractController
 
         $student = $this->getDoctrine()
         ->getRepository(Student::class)
-        ->findAll();
+        ->findBy([],['surname'=>'asc']);
 
         return $this->render('student/index.html.twig', [
+            'success' => $r->getSession()->getFlashBag()->get('success', []),
             'student' => $student
         ]);
     }
@@ -43,8 +45,15 @@ class StudentController extends AbstractController
     }
 
     #[Route('/student/store', name: 'student_store', methods: ['POST'])]
-    public function store(Request $r): Response
+    public function store(Request $r, ValidatorInterface $validator): Response
     {
+        $submittedToken = $r->request->get('token');
+
+        if (!$this->isCsrfTokenValid('', $submittedToken)) $r->getSession()->getFlashBag()->add('errors', 'Invalid token.');
+
+        if (!$this->isCsrfTokenValid('', $submittedToken)) return $this->redirectToRoute('student_create');
+
+
         $student = new Student;
 
         $student->
@@ -53,6 +62,24 @@ class StudentController extends AbstractController
         setEmail($r->request->get('student_email'))->
         setPhone($r->request->get('student_phone'));
         
+        $errors = $validator->validate($student);
+
+        if (count($errors) > 0) {
+
+            foreach($errors as $error) {
+                $r->getSession()->getFlashBag()->add('errors', $error->getMessage());
+
+            }
+            $r->getSession()->getFlashBag()->add('student_name', $r->request->get('student_name'));
+            $r->getSession()->getFlashBag()->add('student_surname', $r->request->get('student_surname'));
+            $r->getSession()->getFlashBag()->add('student_email', $r->request->get('student_email'));
+            $r->getSession()->getFlashBag()->add('student_phone', $r->request->get('student_phone'));
+
+            return $this->redirectToRoute('student_create');
+        }
+
+        $r->getSession()->getFlashBag()->add('success', 'Student has been succesfully added.');
+
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($student);
         $entityManager->flush();
@@ -73,6 +100,7 @@ class StudentController extends AbstractController
         $student_phone = $r->getSession()->getFlashBag()->get('student_phone', []);
         
         return $this->render('student/edit.html.twig', [
+            'errors' => $r->getSession()->getFlashBag()->get('errors', []),
             'student' => $student,
             'student_name' => $student_name[0] ?? '',
             'student_surname' => $student_surname[0] ?? '',
@@ -82,8 +110,14 @@ class StudentController extends AbstractController
     }
 
     #[Route('/student/update/{id}', name: 'student_update', methods: ['POST'])]
-    public function update(Request $r, $id): Response
+    public function update(Request $r, $id, ValidatorInterface $validator): Response
     {
+        $submittedToken = $r->request->get('token');
+
+        if (!$this->isCsrfTokenValid('', $submittedToken)) $r->getSession()->getFlashBag()->add('errors', 'Invalid token.');
+
+        if (!$this->isCsrfTokenValid('', $submittedToken)) return $this->redirectToRoute('student_edit', ['id'=>$student->getId()]);
+
         $student = $this->getDoctrine()
         ->getRepository(Student::class)
         ->find($id);
@@ -98,7 +132,24 @@ class StudentController extends AbstractController
         $student_surname = $r->getSession()->getFlashBag()->get('student_surname', []);
         $student_email = $r->getSession()->getFlashBag()->get('student_email', []);
         $student_phone = $r->getSession()->getFlashBag()->get('student_phone', []);
-        
+
+        $errors = $validator->validate($student);
+
+        if (count($errors) > 0) {
+
+            foreach($errors as $error) {
+                $r->getSession()->getFlashBag()->add('errors', $error->getMessage());
+
+            }
+            $r->getSession()->getFlashBag()->add('student_name', $r->request->get('student_name'));
+            $r->getSession()->getFlashBag()->add('student_surname', $r->request->get('student_surname'));
+            $r->getSession()->getFlashBag()->add('student_email', $r->request->get('student_email'));
+            $r->getSession()->getFlashBag()->add('student_phone', $r->request->get('student_phone'));
+
+            return $this->redirectToRoute('student_edit');
+        }
+
+        $r->getSession()->getFlashBag()->add('success', 'Student has been succesfully modified.');
         $entityManager = $this->getDoctrine()->getManager();
         $entityManager->persist($student);
         $entityManager->flush();
@@ -123,6 +174,11 @@ class StudentController extends AbstractController
     #[Route('/student/grades/{id}', name: 'student_grades', methods: ['GET'])]
     public function grades(Request $r, $id): Response
     {
+        
+        $grade = $this->getDoctrine()
+        ->getRepository(Grade::class)
+        ->findAll();
+
         $student = $this->getDoctrine()
         ->getRepository(Student::class)
         ->findAll();
@@ -130,18 +186,12 @@ class StudentController extends AbstractController
         $lecture = $this->getDoctrine()
         ->getRepository(Lecture::class)
         ->findAll();
-        
-        $grade = $this->getDoctrine()
-        ->getRepository(Grade::class)
-        ->findAll();
-        // dd($grade);
-        foreach ($grade as $grades) {
-            dd($grades);
-        }
+
         return $this->render('student/grade.html.twig', [
             'student' => $student,
             'lecture' => $lecture,
             'grade' => $grade,
+            'id' => $id,
         ]);
     }
 

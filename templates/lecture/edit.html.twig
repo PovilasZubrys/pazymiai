@@ -3,19 +3,30 @@
 {% block title %}Hello LectureController!{% endblock %}
 
 {% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+               <div class="card-header">Lectures edit</div>
 
-<div class="example-wrapper">
-    This friendly message is coming from:
-
-    <form action="{{path('lecture_update', {id: lecture.id})}}" method="POST">
-        <ul>
-            <label>Lecture name:</label>
-            <input type="text" name="lecture_name" value="{{lecture.name}}">
-            <label>Lecture description:</label>
-            <input type="text" name="lecture_description" value="{{lecture.description}}">
-
-            <button type="submit">Edit Lecture</button>
-        </ul>
-    </form>
+                <div class="card-body">
+                    <div class="example-wrapper">
+                        <form action="{{path('lecture_update', {id: lecture.id})}}" method="POST">
+                        <div class="form-group">
+                                <label>Lecture name:</label>
+                                <input type="text" class="form-control" name="lecture_name" value="{{lecture.name}}">
+                        </div>
+                        <div class="form-group">
+                                <label>Lecture description:</label>
+                                <textarea type="text" class="form-control" id="summernote" name="lecture_description">{{lecture.description}}</textarea>
+                        </div>
+                            <button type="submit" class="btn btn-dark">Edit Lecture</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 {% endblock %}

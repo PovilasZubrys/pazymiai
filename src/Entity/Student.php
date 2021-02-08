@@ -6,6 +6,7 @@ use App\Repository\StudentRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=StudentRepository::class)
@@ -21,21 +22,45 @@ class Student
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     *      minMessage = "Students name must be at least {{ limit }} characters long",
+     *      maxMessage = "Students name cannot be longer than {{ limit }} characters"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     *      minMessage = "Students surname must be at least {{ limit }} characters long",
+     *      maxMessage = "Students surname cannot be longer than {{ limit }} characters"
+     * )
      */
     private $surname;
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     *      minMessage = "Students email must be at least {{ limit }} characters long",
+     *      maxMessage = "Students email cannot be longer than {{ limit }} characters"
+     * )
      */
     private $email;
 
     /**
      * @ORM\Column(type="string", length=32)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 32,
+     *      minMessage = "Students phone must be at least {{ limit }} characters long",
+     *      maxMessage = "Students phone cannot be longer than {{ limit }} characters"
+     * )
      */
     private $phone;
 

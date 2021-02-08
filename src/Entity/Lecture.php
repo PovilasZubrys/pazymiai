@@ -6,6 +6,7 @@ use App\Repository\LectureRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=LectureRepository::class)
@@ -21,11 +22,18 @@ class Lecture
 
     /**
      * @ORM\Column(type="string", length=64)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 64,
+     *      minMessage = "Lecture name must be at least {{ limit }} characters long",
+     *      maxMessage = "Lecture name cannot be longer than {{ limit }} characters"
+     * )
      */
     private $name;
 
     /**
      * @ORM\Column(type="text")
+     * 
      */
     private $description;
 

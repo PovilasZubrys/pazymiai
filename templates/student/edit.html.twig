@@ -1,25 +1,43 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello StudentController!{% endblock %}
+{% block title %}Student edit{% endblock %}
 
 {% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Edit student</div>
 
-<div class="example-wrapper">
-    This friendly message is coming from:
-
-    <form action="{{path('student_update', {id: student.id})}}" method="POST">
-        <ul>
-            <label>Studen name:</label>
-            <input type="text" name="student_name" value="{{student.name}}">
-            <label>Student surname:</label>
-            <input type="text" name="student_surname" value="{{student.surname}}">
-            <label>Student email:</label>
-            <input type="text" name="student_email" value="{{student.email}}">
-            <label>Strudent phone:</label>
-            <input type="text" name="student_phone" value="{{student.phone}}">
-
-            <button type="submit">Edit Student</button>
-        </ul>
-    </form>
+                    <div class="card-body">
+                        <div class="example-wrapper">
+                            <form action="{{path('student_update', {id: student.id})}}" method="POST">
+                                <ul>
+                                <div class="form-group">
+                                    <label>Studen name:</label>
+                                    <input type="text" class="form-control" name="student_name" value="{{student.name}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Student surname:</label>
+                                    <input type="text" class="form-control" name="student_surname" value="{{student.surname}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Student email:</label>
+                                    <input type="text" class="form-control" name="student_email" value="{{student.email}}">
+                                </div>
+                                <div class="form-group">
+                                    <label>Strudent phone:</label>
+                                    <input type="text" class="form-control" name="student_phone" value="{{student.phone}}">
+                                </div>
+                                    <input type="hidden" name="token" value="{{csrf_token('')}}"/>
+                                    <button class="btn btn-dark" type="submit">Edit Student</button>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -3,10 +3,44 @@
 {% block title %}Hello StudentController!{% endblock %}
 
 {% block body %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">PAVADINIMAS</div>
 
-<div class="example-wrapper">
-        {{dump(grade)}}
-    {% for grades in grade %}
-    {% endfor %}
+                <div class="card-body">
+                    {% for students in student %}
+                        {% if (id == students.id) %}
+                        <div>
+                            <h4>{{students.name}} {{students.surname}}</h4>
+                            
+                            <p>Email: {{students.email}}</p>
+                            <p>Phone: {{students.phone}}</p>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for grades in grade %}
+                        {% if (id == grades.student.id) %}
+                        <div class="row justify-content-center">
+                        
+                            <div class="col-md-8" style="border: 1px solid rgba(0, 0, 0, 0.2);">
+                                <div class="badge badge-primary">Lecture:</div>
+                                <h6>{{grades.lecture.name}}</h6>
+                            </div>
+
+                            <div class="col-md-4" style="border: 1px solid rgba(0, 0, 0, 0.2);">
+                                <div class="badge badge-primary">Grade:</div>
+                                <p>{{grades.grade}}</p>
+                            </div>
+
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

@@ -3,24 +3,38 @@
 {% block title %}Hello StudentController!{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <ul>
-    {% for students in student %}
-        <li>{{students.name}}</li>
-        {{students.surname}}
-        {{students.email}}
-        {{students.phone}}
-    <a href="{{ path('student_edit', {id: students.id}) }}">EDIT</a>
-    <a href="{{ path('student_grades', {id: students.id}) }}">Grades</a>
-    <form action="{{ path('student_delete', {id: students.id}) }}" method="POST">
-        <button type="submit">DELETE</button>
-    </form>
-    {% endfor %}
-    </ul>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Student List</div>
+
+                <div class="card-body">
+                    <div class="example-wrapper">
+                        {% for students in student %}
+                        <li class="list-group-item">
+                            <div class="list-group-item__line">
+                                <h5>{{students.name}} {{students.surname}}</h3>
+                            </div>
+                                <p>{{students.email}} {{students.phone}}</p>
+                            <div class="list-group-item__line__buttons">
+
+                                <a href="{{ path('student_edit', {id: students.id}) }}" class="btn btn-success">EDIT</a>
+                                <a href="{{ path('student_grades', {id: students.id}) }}" class="btn btn-secondary">Grades</a>
+                                <form action="{{ path('student_delete', {id: students.id}) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger">DELETE</button>
+                                </form>
+                            </div>
+                            </li>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+
+
 {% endblock %}

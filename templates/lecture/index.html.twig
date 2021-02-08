@@ -1,23 +1,36 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LectureController!{% endblock %}
+{% block title %}Lecture list{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <ul>
-    {% for lectures in lecture %}
-        <li>{{lectures.name}}</li>
-        {{lectures.description}}
-    <a href="{{ path('lecture_edit', {id: lectures.id}) }}">EDIT</a>
-    <form action="{{ path('lecture_delete', {id: lectures.id}) }}" method="POST">
-        <button type="submit">DELETE</button>
-    </form>
-    {% endfor %}
-    </ul>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">Lectures</div>
+
+                <div class="card-body">
+                    <div class="example-wrapper">
+                    
+                        {% for lectures in lecture %}
+                        <li class="list-group-item">
+                                <h5>{{lectures.name}}</h5>
+                                <p>{{lectures.description}}</p>
+
+                            <div class="list-group-item__line__buttons">
+                                <a href="{{ path('lecture_edit', {id: lectures.id}) }}" class="btn btn-success">EDIT</a>
+                                <form action="{{ path('lecture_delete', {id: lectures.id}) }}" method="POST">
+                                    <button type="submit" class="btn btn-danger">DELETE</button>
+                                </form>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}
