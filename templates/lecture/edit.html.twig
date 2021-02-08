@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LectureController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+    This friendly message is coming from:
+
+    <form action="{{path('lecture_update', {id: lecture.id})}}" method="POST">
+        <ul>
+            <label>Lecture name:</label>
+            <input type="text" name="lecture_name" value="{{lecture.name}}">
+            <label>Lecture description:</label>
+            <input type="text" name="lecture_description" value="{{lecture.description}}">
+
+            <button type="submit">Edit Lecture</button>
+        </ul>
+    </form>
+</div>
+{% endblock %}

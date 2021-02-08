@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello StudentController!{% endblock %}
+
+{% block body %}
+
+<div class="example-wrapper">
+        {{dump(grade)}}
+    {% for grades in grade %}
+    {% endfor %}
+</div>
+{% endblock %}

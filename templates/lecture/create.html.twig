@@ -9,14 +9,17 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    {{ dump(lecture) }}
     This friendly message is coming from:
-    <ul>
-        <label>Lecture name:</label>
-        <input type="text" class="form-control" name="lecture_name" value="{{ lecture_name }}">
-        <label>Lecture description:</label>
-        <input type="text" class="form-control" name="lecture_description" value="{{ lecture_description }}">
-    </ul>
+
+    <form action="{{path('lecture_store')}}" method="POST">
+        <ul>
+            <label>Lecture name:</label>
+            <input type="text" name="lecture_name">
+            <label>Lecture description:</label>
+            <input type="text" name="lecture_description">
+
+            <button type="submit">Add new Lecture</button>
+        </ul>
+    </form>
 </div>
 {% endblock %}

@@ -9,12 +9,15 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
-    {{ dump(lecture) }}
-    This friendly message is coming from:
     <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/pazymiai/src/Controller/LectureController.php'|file_link(0) }}">src/Controller/LectureController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/pazymiai/templates/lecture/index.html.twig'|file_link(0) }}">templates/lecture/index.html.twig</a></code></li>
+    {% for lectures in lecture %}
+        <li>{{lectures.name}}</li>
+        {{lectures.description}}
+    <a href="{{ path('lecture_edit', {id: lectures.id}) }}">EDIT</a>
+    <form action="{{ path('lecture_delete', {id: lectures.id}) }}" method="POST">
+        <button type="submit">DELETE</button>
+    </form>
+    {% endfor %}
     </ul>
 </div>
 {% endblock %}

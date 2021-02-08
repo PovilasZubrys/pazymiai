@@ -9,12 +9,29 @@
 </style>
 
 <div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
 
     This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/xampp/htdocs/pazymiai/src/Controller/GradeController.php'|file_link(0) }}">src/Controller/GradeController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/xampp/htdocs/pazymiai/templates/grade/index.html.twig'|file_link(0) }}">templates/grade/index.html.twig</a></code></li>
-    </ul>
+    <form action="{{path('grade_store')}}" method="POST">
+        <select name="grade_student_id">
+            <option value="0">Select student</option>
+        
+            {% for students in student %}
+            <option value="{{students.id}}">{{students.name}} {{students.surname}}</option>
+            {% endfor %}
+
+        </select>
+
+        <select name="grade_lecture_id">
+            <option value="0">Select lecture</option>
+            
+            {% for lectures in lecture %}
+            <option value="{{lectures.id}}">{{lectures.name}} {{lectures.description}}</option>
+            {% endfor %}
+
+        </select>
+        <label>Student grade:</label>
+        <input type="text" name="grade_grade">
+        <button>Save Grade!</button>
+    </form>
 </div>
 {% endblock %}
